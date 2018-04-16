@@ -40,11 +40,15 @@ public class MyTableModel extends AbstractTableModel {
         return data[rowIndex][columnIndex];
     }
 
+    /**
+     * The cell editable value should be true for custom CellEditor to work.
+     *
+     * @param rowIndex
+     * @param columnIndex
+     * @return
+     */
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        /*if (columnIndex == 5) {
-            return false;
-        }*/
         return true;
     }
 

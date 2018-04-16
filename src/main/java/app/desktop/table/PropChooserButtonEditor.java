@@ -1,5 +1,7 @@
 package app.desktop.table;
 
+import app.desktop.tree.SampleTree;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,6 +22,8 @@ public class PropChooserButtonEditor extends DefaultCellEditor implements Action
     private int row;
     private int col;
 
+    private SampleTree sampleTree;
+
     public PropChooserButtonEditor(JCheckBox checkBox) {
         super(checkBox);
 
@@ -28,7 +32,10 @@ public class PropChooserButtonEditor extends DefaultCellEditor implements Action
         button.setOpaque(true);
         button.addActionListener(this);
 
+        sampleTree = new SampleTree();
+
         this.dialog = JColorChooser.createDialog(button, "Pick a color", true, colorChooser, this, null);
+        // this.dialog = JOptionPane.show
     }
 
     @Override
@@ -56,7 +63,15 @@ public class PropChooserButtonEditor extends DefaultCellEditor implements Action
     public Object getCellEditorValue() {
         if (isPushed) {
             // JOptionPane.showMessageDialog(button, "To call LDS chooser here!");
-            // dialog.show();
+
+            this.dialog.setVisible(true);
+            this.dialog.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    System.out.println("df");
+                    table.getModel().setValueAt("@selected", row, 1);
+                }
+            });
         }
         isPushed = false;
         return label;
@@ -75,13 +90,7 @@ public class PropChooserButtonEditor extends DefaultCellEditor implements Action
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.dialog.setVisible(true);
-        this.dialog.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                table.getModel().setValueAt("@selected", row, 1);
-            }
-        });
+
         fireEditingStopped();
     }
 }
