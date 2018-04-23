@@ -113,6 +113,24 @@ public class SonarQubeCriticalCollectionRemoveTest {
         assertTrue("Java-EndTime should be > Java8-EndTime", javaWinCount > java8WinCount);
     }
 
+    @Test
+    public void getItemIndexAndRemoveByIndexTest() {
+
+        Person person = getPersonToRemove();
+
+        long startTime = System.nanoTime();
+        int removeIndex = personListOne.indexOf(person);
+        personListOne.remove(removeIndex);
+        long removeIndexEndTime = getEndNanoTime(startTime);
+
+        person = getPersonToRemove();
+        startTime = System.nanoTime();
+        personListOne.remove(person);
+        long removeObjectEndTime = getEndNanoTime(startTime);
+
+        assertTrue("Get Item index and remove should be > removed object from list", removeIndexEndTime > removeObjectEndTime);
+    }
+
     private long getEndNanoTime(long startTime) {
         return (System.nanoTime() - startTime);
     }
